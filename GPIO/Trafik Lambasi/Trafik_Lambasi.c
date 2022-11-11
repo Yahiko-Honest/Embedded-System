@@ -1,0 +1,37 @@
+#include <stm32f10x.h>                  // Device header
+
+void gpioConfig(){
+
+	GPIO_InitTypeDef gpio_Initstructure;
+
+	RCC_APB2PerhiphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+	
+	gpio_Initstructure.GPIO_Mode=GPIO_Mode_Out_PP;
+	gpio_Initstructure.GPIO_Pin=GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2;
+	gpio_Initstructure.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB,&gpio_Initstructure);
+}
+
+void delay(uint32_t time){
+	
+	while(time){
+		time--;
+	}
+}
+
+int main(){
+	
+		gpioConfig();
+		while(1){
+			GPIO_SetBits(GPIOB, GPIO_Pin_0);
+			delay(7200000);
+			GPIO_ResetBits(GPIOB, GPIO_Pin_0);
+			GPIO_SetBits(GPIOB, GPIO_Pin_1);
+			delay(3600000);
+			GPIO_ResetBits(GPIOB, GPIO_Pin_1);
+			GPIO_SetBits(GPIOB, GPIO_Pin_2);
+			delay(7200000);	
+			GPIO_ResetBits(GPIOB, GPIO_Pin_2);
+		}
+	
+}
